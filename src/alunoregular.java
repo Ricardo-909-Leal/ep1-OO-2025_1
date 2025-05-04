@@ -1,10 +1,11 @@
-public class alunoregular extends aluno {
+public class AlunoRegular extends Aluno {
     private String curso;
     private String periodo;
     private String turno;
     private int nota;
     
-    public alunoregular() {
+    public AlunoRegular(String nome, String maricula, String nascimento) {
+        super(nome, maricula, nascimento);
         this.curso = "";
         this.periodo = "";
         this.turno = "";
