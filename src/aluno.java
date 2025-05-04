@@ -21,11 +21,8 @@ public abstract class Aluno {
         return this.nascimento;
     }
     public void imprimir() {
-        System.out.println("Nome: " + nome);
-        System.out.println("Matricula: " + maricula); 
-        System.out.println("Nascimento: " + nascimento);
+        System.out.println("Nome: " + getNome());
+        System.out.println("Matricula: " + getMaricula()); 
+        System.out.println("Nascimento: " + getNascimento());
     }
-
-
-
 }
