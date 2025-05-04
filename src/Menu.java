@@ -20,9 +20,8 @@ public class Menu {
                         System.out.println("===== MENU =====");
                         System.out.println("1. cadastro aluno");
                         System.out.println("2. lista de alunos");
-                        System.out.println("3. matricula em turma ");
-                        System.out.println("4. Trancamento");
-                        System.out.println("5. Voltar ao menu principal");
+                        System.out.println("3. matricula/trancamento de turma  ");
+                        System.out.println("4. Voltar ao menu principal");
                         System.out.print("Escolha uma opção: ");
                         opcao = sc.nextInt();
             
@@ -31,37 +30,51 @@ public class Menu {
                                 System.out.println("Adicionar aluno!");
                                 break;
                             case 2:
-                                System.out.print("lista completa: ");
+                                System.out.print("printar a lista completa de alunos: ");
                                 break;
                             case 3:
                                 do {
                                     System.out.println("===== MENU =====");
-                                    System.out.println("1. ");
-                                    System.out.println("2. Modo disciplina/turma");
+                                    System.out.println("1. Matricula em disciplina!");
+                                    System.out.println("2. Trancamento de disciplina!");
                                     System.out.println("3. Voltar para o modo aluno");
                                     System.out.print("Escolha uma opção: ");
                                     opcao = sc.nextInt();
                         
                                     switch (opcao) {
                                         case 1:
-                                            System.out.println("matricula em disiplina!");
-                                            break;
+                                            System.out.println("Turmas disponiveis!");
+                  //                          do { 
+                   //                             System.out.println("Listas de turmas disponiveis!");
+                     //                           System.out.print("Escolha uma opção: ");
+                       //                         opcao = sc.nextInt();
+//                                                switch (opcao) {
+  //                                                  case 1:
+    //                                                    System.out.println("Matricula em disciplina!");
+      //                                                  break;
+        //                                            default:
+          //                                              System.out.println("Opção inválida! Tente novamente.");
+            //                                    }
+              //                              } while (opcao != 1);
+                //                            break;               colocar codigo nas turma e colocar como a opicao de matricula
                                         case 2:
                                             System.out.println("trancamento!");
                                             break;
                                         case 3:
                                             System.out.println("voltar ao modo aluno");
                                             break;     
+                                        default:
+                                            System.out.println("Opção inválida! Tente novamente.");
                                     }
                                 } while (opcao != 3);
-                            case 5:
+                            case 4:
                                 System.out.println("Saindo do programa...");
                                 break;
                             default:
                                 System.out.println("Opção inválida! Tente novamente.");
                         }
-                        System.out.println(); // Linha em branco para separar as interações
-                    } while (opcao != 5);
+                        System.out.println(); 
+                    } while (opcao != 4);
         
                     System.out.println("Você escolheu exibir uma mensagem!");
                     break;
@@ -127,7 +140,7 @@ public class Menu {
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
             }
-            System.out.println(); // Linha em branco para separar as interações
+            System.out.println();
         } while (opcao != 4);
 
         sc.close();
