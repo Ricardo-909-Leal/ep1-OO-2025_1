@@ -29,7 +29,7 @@ public class Menu {
                     System.out.println("===== MENU =====");
                     System.out.println("1. cadastro aluno");
                     System.out.println("2. lista de alunos");
-                    System.out.println("3. matricula/trancamento de turma");
+                    System.out.println("3. matricula/trancame1nto de turma");
                     System.out.println("4. Voltar ao menu principal");
                     System.out.print("Escolha uma opção: ");
                     opcao = sc.nextInt();
@@ -187,12 +187,12 @@ public class Menu {
         
                                     default:
                                         System.out.println("Opção inválida! Tente novamente.");
-                                }
-                            } while (opcao != 5);
-                            break;
+                                    }
+                                } while (opcao != 5);
+                                break;
                             
         
-                            case 2:
+                        case 2:
                             // Listar alunos
                             System.out.println("===== Lista de Alunos Regulares =====");
                             for (AlunoRegular aluno : alunosRegulares) {
@@ -224,7 +224,7 @@ public class Menu {
                             }
                             break;
                         
-                            case 3: 
+                        case 3: 
                             //matricula/trancamento de turma
                                 do {
                                     System.out.println("===== MENU =====");
@@ -260,18 +260,16 @@ public class Menu {
                                             System.out.println("Opção inválida! Tente novamente.");
                                     }
                                 } while (opcao != 3);
-                            case 4:
-                                System.out.println("Saindo do programa...");
-                                break;
-                            default:
-                                System.out.println("Opção inválida! Tente novamente.");
+                        case 4:
+                            System.out.println("Saindo do programa...");
+                            break;
+                        default:
+                            System.out.println("Opção inválida! Tente novamente.");
                         }
                         System.out.println(); 
                     } while (opcao != 4);
-        
-                    System.out.println("Você escolheu exibir uma mensagem!");
-                    break;
                 case 2:
+                // Modo disciplina/turma
                     do {
                         System.out.println("===== MENU =====");
                         System.out.println("1. Adicionar disciplina/turma!");
