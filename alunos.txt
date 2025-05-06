@@ -1,0 +1,4 @@
+===== Lista de Alunos Regulares =====
+Nome: Ricardo, Matrícula: 0011, Nascimento: 01/02/2001, Curso: farmacia, Período: 5, Turno: tarde, Nota: 5
+
+===== Lista de Alunos Especiais =====
