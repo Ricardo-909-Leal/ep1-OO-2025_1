@@ -18,7 +18,7 @@ public class Menu {
             System.out.println("1. Modo aluno");
             System.out.println("2. Modo disciplina/turma");
             System.out.println("3. Modo avaliação/frequência ");
-            System.out.println("4. Sair e salvar");
+            System.out.println("00. Sair e salvar");
             System.out.print("Escolha uma opção: ");
             opcao = sc.nextInt();
 
@@ -27,7 +27,7 @@ public class Menu {
                 // Modo aluno
                 do {
                     System.out.println("===== MENU =====");
-                    System.out.println("1. cadastro aluno");
+                    System.out.println("1. cadastro/edição de aluno");
                     System.out.println("2. lista de alunos");
                     System.out.println("3. matricula/trancame1nto de turma");
                     System.out.println("4. Voltar ao menu principal");
@@ -43,7 +43,7 @@ public class Menu {
                                 System.out.println("2. Adicionar aluno especial!");
                                 System.out.println("3. editar aluno!");
                                 System.out.println("4. Remover aluno!");
-                                System.out.println("5. Voltar ao menu principal");
+                                System.out.println("5. Voltar ao modo aluno");
                                 System.out.print("Escolha uma opção: ");
                                 opcao = sc.nextInt();
                                 sc.nextLine(); // Consumir quebra de linha
@@ -55,20 +55,23 @@ public class Menu {
                                         String nomeRegular = sc.nextLine();
                                         System.out.println("Digite a matrícula do aluno:");
                                         String matriculaRegular = sc.nextLine();
+
+                                        if (verificarDuplicidadeDeMatricula(matriculaRegular)) {
+                                            System.out.println("Erro: Matrícula já cadastrada!");
+                                            break;
+                                        }
                                         System.out.println("Digite a data de nascimento do aluno:");
                                         String nascimentoRegular = sc.nextLine();
                                         System.out.println("Digite o curso do aluno:");
                                         String curso = sc.nextLine();
-                                        System.out.println("Digite o período do aluno:");
-                                        String periodoRegular = sc.nextLine();
+                                        System.out.println("Digite o semestre do aluno:");
+                                        String semestreRegular = sc.nextLine();
                                         System.out.println("Digite o turno do aluno:");
                                         String turnoRegular = sc.nextLine();
-                                        System.out.println("Digite a nota do aluno:");
-                                        int nota = sc.nextInt();
                                         sc.nextLine(); // Consumir quebra de linha
         
-                                        alunosRegulares.add(new AlunoRegular(nomeRegular, matriculaRegular, nascimentoRegular, curso, periodoRegular, turnoRegular, nota));
-                                        System.out.println("Aluno regular cadastrado com sucesso!");
+                                        alunosRegulares.add(new AlunoRegular(nomeRegular, matriculaRegular, nascimentoRegular, curso, semestreRegular, turnoRegular));
+                                        System.out.println("Para cadastrar o aluno sair do progama!");
                                         break;
         
                                     case 2:
@@ -77,153 +80,90 @@ public class Menu {
                                         String nomeEspecial = sc.nextLine();
                                         System.out.println("Digite a matrícula do aluno:");
                                         String matriculaEspecial = sc.nextLine();
+
+                                        if (verificarDuplicidadeDeMatricula(matriculaEspecial)) {
+                                            System.out.println("Erro: Matrícula já cadastrada!");
+                                            break;
+                                        }
                                         System.out.println("Digite a data de nascimento do aluno:");
                                         String nascimentoEspecial = sc.nextLine();
-                                        System.out.println("Digite o período do aluno:");
-                                        String periodoEspecial = sc.nextLine();
+                                        System.out.println("Digite o semestre do aluno:");
+                                        String semestreEspecial = sc.nextLine();
                                         System.out.println("Digite o turno do aluno:");
                                         String turnoEspecial = sc.nextLine();
         
-                                        alunosEspeciais.add(new AlunoEspecial(nomeEspecial, matriculaEspecial, nascimentoEspecial, periodoEspecial, turnoEspecial));
-                                        System.out.println("Aluno especial cadastrado com sucesso!");
+                                        alunosEspeciais.add(new AlunoEspecial(nomeEspecial, matriculaEspecial, nascimentoEspecial, semestreEspecial, turnoEspecial));
+                                        System.out.println("Para cadastrar o aluno sair do progama!");
                                         break;
         
                                     
-                                    case 3:
-                                    System.out.println("===== EDITAR ALUNO =====");
-                                    System.out.println("Digite o nome do aluno que deseja editar:");
-                                    String nomeEditar = sc.nextLine();
-                                
-                                    boolean encontrado = false;
-                                
-                                    // Procurar em alunos regulares
-                                    for (AlunoRegular aluno : alunosRegulares) {
-                                        if (aluno.getNome().equalsIgnoreCase(nomeEditar)) {
-                                            System.out.println("Aluno encontrado! Insira os novos dados:");
-                                            System.out.println("Digite o novo nome do aluno:");
-                                            aluno.setNome(sc.nextLine());
-                                            System.out.println("Digite a nova matrícula do aluno:");
-                                            aluno.setMatricula(sc.nextLine());
-                                            System.out.println("Digite a nova data de nascimento do aluno:");
-                                            aluno.setNascimento(sc.nextLine());
-                                            System.out.println("Digite o novo curso do aluno:");
-                                            aluno.setCurso(sc.nextLine());
-                                            System.out.println("Digite o novo período do aluno:");
-                                            aluno.setPeriodo(sc.nextLine());
-                                            System.out.println("Digite o novo turno do aluno:");
-                                            aluno.setTurno(sc.nextLine());
-                                            System.out.println("Digite a nova nota do aluno:");
-                                            aluno.setNota(sc.nextInt());
-                                            sc.nextLine(); // Consumir quebra de linha
-                                            System.out.println("Dados do aluno regular atualizados com sucesso!");
-                                            encontrado = true;
-                                            break;
-                                        }
-                                    }
-                                
-                                    // Procurar em alunos especiais
-                                    if (!encontrado) {
-                                        for (AlunoEspecial aluno : alunosEspeciais) {
-                                            if (aluno.getNome().equalsIgnoreCase(nomeEditar)) {
-                                                System.out.println("Aluno encontrado! Insira os novos dados:");
+                                        case 3:
+                                            System.out.println("===== EDITAR ALUNO =====");
+                                            System.out.println("Digite a matrícula do aluno que deseja editar:");
+                                            String matriculaEditar = sc.nextLine();
+
+                                            String alunoExistente = buscarAlunoNoArquivo(matriculaEditar);
+                                            if (alunoExistente == null) {
+                                                System.out.println("Aluno não encontrado!");
+                                            } else {
+                                                System.out.println("Aluno encontrado: " + alunoExistente);
+                                                System.out.println("Insira os novos dados do aluno:");
+
                                                 System.out.println("Digite o novo nome do aluno:");
-                                                aluno.setNome(sc.nextLine());
+                                                String novoNome = sc.nextLine();
                                                 System.out.println("Digite a nova matrícula do aluno:");
-                                                aluno.setMatricula(sc.nextLine());
+                                                String novaMatricula = sc.nextLine();
                                                 System.out.println("Digite a nova data de nascimento do aluno:");
-                                                aluno.setNascimento(sc.nextLine());
-                                                System.out.println("Digite o novo período do aluno:");
-                                                aluno.setPeriodo(sc.nextLine());
+                                                String novoNascimento = sc.nextLine();
+                                                System.out.println("Digite o novo curso do aluno:");
+                                                String novoCurso = sc.nextLine();
+                                                System.out.println("Digite o novo semestre do aluno:");
+                                                String novoSemestre = sc.nextLine();
                                                 System.out.println("Digite o novo turno do aluno:");
-                                                aluno.setTurno(sc.nextLine());
-                                                System.out.println("Dados do aluno especial atualizados com sucesso!");
-                                                encontrado = true;
-                                                break;
+                                                String novoTurno = sc.nextLine();
+
+                                                // Formatar os novos dados do aluno
+                                                String novosDados = "Nome: " + novoNome + ", Matrícula: " + novaMatricula + ", Nascimento: " + novoNascimento +
+                                                                    ", Curso: " + novoCurso + ", Semestre: " + novoSemestre + ", Turno: " + novoTurno;
+
+                                                // Atualizar o aluno no arquivo
+                                                editarAlunoNoArquivo(matriculaEditar, novosDados);
                                             }
-                                        }
-                                    }
-                                
-                                    if (!encontrado) {
-                                        System.out.println("Aluno não encontrado!");
-                                    }
-                                    break;
-                                    case 4:
-                                    System.out.println("===== REMOVER ALUNO =====");
-                                    System.out.println("Digite o nome do aluno que deseja remover:");
-                                    String nomeRemover = sc.nextLine();
-                                
-                                    encontrado = false;
-                                
-                                    // Remover de alunos regulares
-                                    for (int i = 0; i < alunosRegulares.size(); i++) {
-                                        if (alunosRegulares.get(i).getNome().equalsIgnoreCase(nomeRemover)) {
-                                            alunosRegulares.remove(i);
-                                            System.out.println("Aluno regular removido com sucesso!");
-                                            encontrado = true;
                                             break;
-                                        }
-                                    }
-                                
-                                    // Remover de alunos especiais
-                                    if (!encontrado) {
-                                        for (int i = 0; i < alunosEspeciais.size(); i++) {
-                                            if (alunosEspeciais.get(i).getNome().equalsIgnoreCase(nomeRemover)) {
-                                                alunosEspeciais.remove(i);
-                                                System.out.println("Aluno especial removido com sucesso!");
-                                                encontrado = true;
-                                                break;
+                                        case 4:
+                                            System.out.println("===== REMOVER ALUNO =====");
+                                            System.out.println("Digite a matrícula do aluno que deseja remover:");
+                                            String matriculaRemover = sc.nextLine();
+
+                                            String alunoExistenteRemover = buscarAlunoNoArquivo(matriculaRemover);
+                                            if (alunoExistenteRemover == null) {
+                                                System.out.println("Aluno não encontrado!");
+                                            } else {
+                                                System.out.println("Aluno encontrado: " + alunoExistenteRemover);
+                                                System.out.println("Deseja realmente remover este aluno? (s/n)");
+                                                String confirmacao = sc.nextLine();
+                                                if (confirmacao.equalsIgnoreCase("s")) {
+                                                    removerAlunoNoArquivo(matriculaRemover);
+                                                } else {
+                                                    System.out.println("Operação de remoção cancelada.");
+                                                }
                                             }
-                                        }
-                                    }
-                                
-                                    if (!encontrado) {
-                                        System.out.println("Aluno não encontrado!");
-                                    }
-                                    break;
-        
+                                            break;
+            
                                     case 5:
-                                        System.out.println("Voltando ao menu principal...");
+                                        System.out.println("Voltando...");
                                         break;
         
                                     default:
                                         System.out.println("Opção inválida! Tente novamente.");
                                     }
                                 } while (opcao != 5);
-                                break;
-                            
-        
-                        case 2:
-                            // Listar alunos
-                            System.out.println("===== Lista de Alunos Regulares =====");
-                            for (AlunoRegular aluno : alunosRegulares) {
-                                aluno.imprimir();
-                                System.out.println("------------------------");
-                            }
-                        
-                            System.out.println("===== Lista de Alunos Especiais =====");
-                            for (AlunoEspecial aluno : alunosEspeciais) {
-                                aluno.imprimir();
-                                System.out.println("------------------------");
-                            }
-                        
-                            // Salvar os dados no arquivo .txt
-                            try (BufferedWriter writer = new BufferedWriter(new FileWriter("alunos.txt"))) {
-                                writer.write("===== Lista de Alunos Regulares =====\n");
-                                for (AlunoRegular aluno : alunosRegulares) {
-                                    writer.write(aluno.toString() + "\n"); // Certifique-se de que o método toString() está implementado
-                                }
-                        
-                                writer.write("\n===== Lista de Alunos Especiais =====\n");
-                                for (AlunoEspecial aluno : alunosEspeciais) {
-                                    writer.write(aluno.toString() + "\n"); // Certifique-se de que o método toString() está implementado
-                                }
-                        
-                                System.out.println("Dados salvos no arquivo 'alunos.txt'.");
-                            } catch (IOException e) {
-                                System.out.println("Erro ao salvar os dados: " + e.getMessage());
-                            }
                             break;
-                        
+        
+                        case 2:                                                  
+                            // Listar alunos
+                            listarAlunosDoArquivo();
+                            break;
                         case 3: 
                             //matricula/trancamento de turma
                                 do {
@@ -253,21 +193,23 @@ public class Menu {
                                         case 2:
                                             System.out.println("trancamento!");
                                             break;
+                                        // Aqui você adicionar a lógica para o trancamento de disciplina
                                         case 3:
                                             System.out.println("voltar ao modo aluno");
-                                            break;     
+                                            break;   
                                         default:
                                             System.out.println("Opção inválida! Tente novamente.");
                                     }
                                 } while (opcao != 3);
                         case 4:
-                            System.out.println("Saindo do programa...");
-                            break;
+                            System.out.println("Voltando ao menu principal...");
+                            
                         default:
                             System.out.println("Opção inválida! Tente novamente.");
                         }
                         System.out.println(); 
                     } while (opcao != 4);
+                    break;
                 case 2:
                 // Modo disciplina/turma
                     do {
@@ -291,9 +233,9 @@ public class Menu {
                                 System.out.println("Opção inválida! Tente novamente.");
                         }
                     } while (opcao != 3);
-                    
                     break;
                 case 3:
+                    // Modo avaliação/frequência
                     do {
                         System.out.println("===== MENU =====");
                         System.out.println("1. Lançamento de notas!");
@@ -323,19 +265,169 @@ public class Menu {
                             default:
                                 System.out.println("Opção inválida! Tente novamente.");
                         }
-                    } while (opcao != 5);
+                    } while (opcao != 5);    
+                case 00:
+                    System.out.println("Saindo e salvando...");
+                     // Salvar os dados no arquivo .txt
+                     try (BufferedWriter writer = new BufferedWriter(new FileWriter("alunos.txt", true))) { // 'true' ativa o modo de acréscimo
+ 
+                        for (AlunoRegular aluno : alunosRegulares) {
+                            writer.write(aluno.toString() + "\n");
+                        }
+
+
+                        for (AlunoEspecial aluno : alunosEspeciais) {
+                            writer.write(aluno.toString() + "\n");
+                        }
+
+                        System.out.println("Dados salvos no arquivo 'alunos.txt'.");
+                    } catch (IOException e) {
+                        System.out.println("Erro ao salvar os dados: " + e.getMessage());
+                    }
                     break;
-                case 4:
-                    System.out.println("Saindoe salvando...");
-                    break;
+                    
+                    
                 default:
                     System.out.println("Opção inválida! Tente novamente.");
             }
             System.out.println();
-        } while (opcao != 4);
+        } while (opcao != 00);
 
         sc.close();
+        
+    }
+
+    public static void atualizarArquivo(ArrayList<AlunoRegular> alunosRegulares, ArrayList<AlunoEspecial> alunosEspeciais) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("alunos.txt"))) { // Sobrescreve o arquivo
+            writer.write("===== Lista de Alunos Regulares =====\n");
+            for (AlunoRegular aluno : alunosRegulares) {
+                writer.write(aluno.toString() + "\n");
+            }
+    
+            writer.write("\n===== Lista de Alunos Especiais =====\n");
+            for (AlunoEspecial aluno : alunosEspeciais) {
+                writer.write(aluno.toString() + "\n");
+            }
+    
+            System.out.println("Arquivo atualizado com sucesso!");
+        } catch (IOException e) {
+            System.out.println("Erro ao atualizar o arquivo: " + e.getMessage());
+        }
+    }
+
+    public static boolean verificarDuplicidadeDeMatricula(String matricula) {
+        try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                if (linha.contains("Matrícula: " + matricula)) {
+                    return true; // Matrícula já existe
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao verificar duplicidade: " + e.getMessage());
+        }
+        return false; // Matrícula não encontrada
+    }
+
+    public static String buscarAlunoNoArquivo(String matricula) {
+        try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                if (linha.contains("Matrícula: " + matricula)) {
+                    return linha; // Retorna a linha do aluno encontrado
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        }
+        return null; // Retorna null se o aluno não for encontrado
+    }
+
+    public static void removerAlunoNoArquivo(String matricula) {
+        try {
+            java.io.File arquivo = new java.io.File("alunos.txt");
+            ArrayList<String> linhas = new ArrayList<>();
+            boolean encontrado = false;
+    
+            // Ler todas as linhas do arquivo
+            try (Scanner scanner = new Scanner(arquivo)) {
+                while (scanner.hasNextLine()) {
+                    String linha = scanner.nextLine();
+                    if (linha.contains("Matrícula: " + matricula)) {
+                        encontrado = true; // Ignora a linha do aluno a ser removido
+                    } else {
+                        linhas.add(linha); // Mantém as outras linhas
+                    }
+                }
+            }
+    
+            // Reescrever o arquivo sem o aluno removido
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))) {
+                for (String linha : linhas) {
+                    writer.write(linha);
+                    writer.newLine();
+                }
+            }
+    
+            if (encontrado) {
+                System.out.println("Aluno removido com sucesso!");
+            } else {
+                System.out.println("Aluno não encontrado!");
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao remover o aluno: " + e.getMessage());
+        }
+    }
+    
+    public static void editarAlunoNoArquivo(String matricula, String novosDados) {
+        try {
+            java.io.File arquivo = new java.io.File("alunos.txt");
+            ArrayList<String> linhas = new ArrayList<>();
+            boolean encontrado = false;
+    
+            // Ler todas as linhas do arquivo
+            try (Scanner scanner = new Scanner(arquivo)) {
+                while (scanner.hasNextLine()) {
+                    String linha = scanner.nextLine();
+                    if (linha.contains("Matrícula: " + matricula)) {
+                        linhas.add(novosDados); // Substitui a linha do aluno
+                        encontrado = true;
+                    } else {
+                        linhas.add(linha); // Mantém as outras linhas
+                    }
+                }
+            }
+    
+            // Reescrever o arquivo com as alterações
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))) {
+                for (String linha : linhas) {
+                    writer.write(linha);
+                    writer.newLine();
+                }
+            }
+    
+            if (encontrado) {
+                System.out.println("Aluno editado com sucesso!");
+            } else {
+                System.out.println("Aluno não encontrado!");
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao editar o arquivo: " + e.getMessage());
+        }
+    }
+    public static void listarAlunosDoArquivo() {
+        try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
+            System.out.println("===== Lista de Alunos =====");
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                System.out.println(linha); // Exibe cada linha do arquivo
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        }
     }
 }
+
+
 // O esqueleto do projeto ta pronto falta adicionar cada funcao em cada parte do menu para a implementacao completa do projeto
 // e adicionar as classes de aluno normal e especial, disciplina, turma, professor. 
