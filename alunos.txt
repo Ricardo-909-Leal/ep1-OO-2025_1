@@ -1,4 +1,6 @@
-===== Lista de Alunos Regulares =====
-Nome: Ricardo, Matrícula: 0011, Nascimento: 01/02/2001, Curso: farmacia, Período: 5, Turno: tarde, Nota: 5
-
-===== Lista de Alunos Especiais =====
+Nome: Ricardo, Matrícula: 01, Nascimento: 01/01/2001, Curso: engenharia, Semestre: 1, Turno: diurno
+Nome: lorena, Matrícula: 02, Nascimento: 02/02/2002, Semestre: 2, Turno: noturno
+Nome: Roger, Matrícula: 03, Nascimento: 03/03/2003, Curso: nose, Semestre: 3, Turno: noturno
+Nome: otvio, Matrícula: 09, Nascimento: 09/09/1999, Curso: adiministracao, Semestre: 9, Turno: tarde
+Nome: guilherme, Matrícula: 10, Nascimento: 01, Curso: historia, Semestre: 10, Turno: tarde
+Nome: daniel, Matrícula: 90, Nascimento: 09/09/2000, Semestre: 9, Turno: tarde
