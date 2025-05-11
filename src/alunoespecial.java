@@ -1,20 +1,18 @@
-
-
 public class AlunoEspecial extends Aluno {
 
-    private String periodo;
+    private String semestre;
     private String turno;
     
-    public AlunoEspecial(String nome, String matricula, String nascimento ,String periodo, String turno) {
+    public AlunoEspecial(String nome, String matricula, String nascimento ,String semestre, String turno) {
         super(nome, matricula, nascimento);
-        this.periodo = periodo;
+        this.semestre = semestre;
         this.turno = turno;
     }
-    public String getPeriodo() {
-        return periodo;
+    public String getSemestre() {
+        return semestre;
     }
-    public void setPeriodo(String periodo) {
-        this.periodo = periodo;
+    public void setSemestre(String semestre) {
+        this.semestre = semestre;
     }
     public String getTurno() {
         return turno;
@@ -27,11 +25,11 @@ public class AlunoEspecial extends Aluno {
         System.out.println("Nome: " + getNome());
         System.out.println("Matrícula: " + getMatricula()); 
         System.out.println("Nascimento: " + getNascimento());
-        System.out.println("Periodo: " + periodo);
+        System.out.println("Semestre: " + semestre);
         System.out.println("Turno: " + turno);
     }
     @Override
     public String toString() {
-        return "Nome: " + getNome() + ", Matrícula: " + getMatricula() + ", Nascimento: " + getNascimento() + ", Período: " + periodo + ", Turno: " + turno ;
+        return "Nome: " + getNome() + ", Matrícula: " + getMatricula() + ", Nascimento: " + getNascimento() + ", Semestre: " + semestre + ", Turno: " + turno ;
     }
 }
