@@ -1,50 +1,102 @@
-public class Turma extends Disiplina {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Turma extends Disciplina {
     // Atributos
-    private String professor;
-    private String sementre;
-    private String formadeavaliacao;
-    private int numero;
-    private int capacidade;
-    private String modalidade;
+    private String codTurma;
+    private String professorResponsavel;
+    private String semestre;
+    private String formaAvaliacao; // "simples" ou "ponderada"
+    private boolean presencial;
     private String sala;
     private String horario;
+    private int capacidadeMaxima;
+    private List<Aluno> alunosMatriculados;
 
-    // Construtor
-    public Turma(String nome, String codigo, int cargaHoraria, String preRequesito, String professor, String semestre, String formadeavaliacao, int numero, int capacidade, String modalidade, String sala, String horario) {
-        super(nome, codigo, cargaHoraria, preRequesito);
-        this.professor = professor;
-        this.sementre = semestre;
-        this.formadeavaliacao = formadeavaliacao;
-        this.numero = numero;
-        this.capacidade = capacidade;
-        this.modalidade = modalidade;
-        this.sala = sala;
+    public Turma(String nome, String codigo,int cargaHoraria, String codTurma, String professorResponsavel, String semestre, String formaAvaliacao, boolean presencial, String sala, String horario, int capacidadeMaxima) {
+
+        super(nome, codigo, cargaHoraria); 
+        this.codTurma = codTurma;
+        this.professorResponsavel = professorResponsavel;
+        this.semestre = semestre;
+        this.formaAvaliacao = formaAvaliacao;
+        this.presencial = presencial;
+        this.sala = presencial ? sala : null;
         this.horario = horario;
+        this.capacidadeMaxima = capacidadeMaxima;
+        this.alunosMatriculados = new ArrayList<>();
     }
-    
-    // Métodos de acesso (getters e setters)
-    public String getProfessor() {
-        return this.professor;
+    public Turma(String codTurma, String professor,String semestre,String forma, boolean presencial,String sala,String horario,int capacidade) {
+        super("", "", 0); // Exemplo de valores
+        this.codTurma = codTurma;
+        this.professorResponsavel = professor;
+        this.semestre = semestre;
+        this.formaAvaliacao = forma;
+        this.presencial = presencial;
+        this.sala = presencial ? sala : null;
+        this.horario = horario;
+        this.capacidadeMaxima = capacidade;
+        this.alunosMatriculados = new ArrayList<>();
     }
-    public String getsemestre() {
-        return this.sementre;
+
+
+    public boolean matricularAluno(Aluno aluno) {
+        if (alunosMatriculados.size() < capacidadeMaxima) {
+            alunosMatriculados.add(aluno);
+            return true;
+        }
+        return false;
     }
-    public String getformadeavaliacao() {
-        return this.formadeavaliacao;
+
+    public void listarAlunos() {
+        for (Aluno a : alunosMatriculados) {
+            System.out.println(a);
+        }
     }
-    public int getNumero() {
-        return this.numero;
+
+    // Getters e setters
+
+    public String getCodTurma() {
+        return codTurma;
     }
-    public int getCapacidade() {
-        return this.capacidade;
+
+    public String getProfessorResponsavel() {
+        return professorResponsavel;
     }
-    public String getModalidade() {
-        return this.modalidade;
+
+    public String getSemestre() {
+        return semestre;
     }
+
+    public String getFormaAvaliacao() {
+        return formaAvaliacao;
+    }
+
+    public boolean isPresencial() {
+        return presencial;
+    }
+
     public String getSala() {
-        return this.sala;
+        return sala;
     }
+
     public String getHorario() {
-        return this.horario;
+        return horario;
+    }
+
+    public int getCapacidadeMaxima() {
+        return capacidadeMaxima;
+    }
+
+    public List<Aluno> getAlunosMatriculados() {
+        return alunosMatriculados;
+    }
+
+    @Override
+    public String toString() {
+        return "Turma " + codTurma + " - " + (presencial ? "Presencial" : "Remota")
+                + " - Prof: " + professorResponsavel + " - Horário: " + horario;
     }
 }
+
+ 
