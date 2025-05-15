@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -9,9 +10,11 @@ public class Menu {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int opcao;
+
         
         ArrayList<AlunoRegular> alunosRegulares = new ArrayList<>();
         ArrayList<AlunoEspecial> alunosEspeciais = new ArrayList<>();
+        List<Disciplina> disciplinas = new ArrayList<>();
 
         do {
             System.out.println("===== MENU =====");
@@ -30,7 +33,7 @@ public class Menu {
                     System.out.println("1. cadastro/edição de aluno");
                     System.out.println("2. lista de alunos");
                     System.out.println("3. matricula/trancame1nto de turma");
-                    System.out.println("4. Voltar ao menu principal");
+                    System.out.println("9. Voltar ao menu principal");
                     System.out.print("Escolha uma opção: ");
                     opcao = sc.nextInt();
         
@@ -201,38 +204,56 @@ public class Menu {
                                             System.out.println("Opção inválida! Tente novamente.");
                                     }
                                 } while (opcao != 3);
-                        case 4:
+                        case 9:
                             System.out.println("Voltando ao menu principal...");
-                            
+                            break;
                         default:
                             System.out.println("Opção inválida! Tente novamente.");
                         }
                         System.out.println(); 
-                    } while (opcao != 4);
+                    } while (opcao != 9);
                     break;
                 case 2:
                 // Modo disciplina/turma
                     do {
-                        System.out.println("===== MENU =====");
-                        System.out.println("1. Adicionar disciplina/turma!");
-                        System.out.println("2. Turmas abertas!");
-                        System.out.println("3. voltar ao menu principal");
+                        System.out.println("=== MENU PRINCIPAL ===");
+                        System.out.println("1. Cadastrar Disciplina");
+                        System.out.println("2. Listar Disciplinas");
+                        System.out.println("3. Criar Turma");
+                        System.out.println("4. Listar Turmas por Disciplina");
+                        System.out.println("9. Sair");
                         System.out.print("Escolha uma opção: ");
                         opcao = sc.nextInt();
+                        sc.nextLine(); // consumir quebra de linha
+
                         switch (opcao) {
                             case 1:
-                                System.out.println("Adicionar disciplina/turma!");
+                                // Cadastrar disciplina
+                                cadastrarDisciplina();
                                 break;
                             case 2:
-                                System.out.println("Turmas abertas!");
+                                // Listar disciplinas
+                                System.out.println("===== LISTA DE DISCIPLINAS =====");
+                                listarDisciplinas();
                                 break;
                             case 3:
-                                System.out.println("voltar ao menu principal");
+                                // Criar turma
+                                System.out.println("===== CRIAÇÃO DE TURMA =====");
+                                criarTurma();
+                                break;
+                            case 4:
+                                // Listar turmas por disciplina
+                                System.out.println("===== LISTA DE TURMAS POR DISCIPLINA =====");
+                                listarTurmasPorDisciplina();
+                                break;
+                            case 9:
+                                System.out.println("voltando ao menu!");
                                 break;
                             default:
-                                System.out.println("Opção inválida! Tente novamente.");
+                                System.out.println("Opção inválida!");
                         }
-                    } while (opcao != 3);
+                        System.out.println();
+                    } while (opcao != 9);
                     break;
                 case 3:
                     // Modo avaliação/frequência
@@ -242,7 +263,7 @@ public class Menu {
                         System.out.println("2. Lançamento de frequencia!");
                         System.out.println("3. Relatório de turmas!");
                         System.out.println("4. Relatório de alunos!");
-                        System.out.println("5. Voltar ao menu principal");
+                        System.out.println("9. Voltar ao menu principal");
                         System.out.print("Escolha uma opção: ");
                         opcao = sc.nextInt();
 
@@ -259,13 +280,13 @@ public class Menu {
                             case 4:
                                 System.out.println("Relatório de alunos!");
                                 break;
-                            case 5:
+                            case 9:
                                 System.out.println("voltar ao menu principal");
                                 break;
                             default:
                                 System.out.println("Opção inválida! Tente novamente.");
                         }
-                    } while (opcao != 5);    
+                    } while (opcao != 9);    
                 case 00:
                     System.out.println("Saindo e salvando...");
                      // Salvar os dados no arquivo .txt
@@ -296,7 +317,7 @@ public class Menu {
         sc.close();
         
     }
-
+//salvamento dos dados no arquivo .txt
     public static void atualizarArquivo(ArrayList<AlunoRegular> alunosRegulares, ArrayList<AlunoEspecial> alunosEspeciais) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("alunos.txt"))) { // Sobrescreve o arquivo
             writer.write("===== Lista de Alunos Regulares =====\n");
@@ -314,7 +335,7 @@ public class Menu {
             System.out.println("Erro ao atualizar o arquivo: " + e.getMessage());
         }
     }
-
+//modo aluno
     public static boolean verificarDuplicidadeDeMatricula(String matricula) {
         try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
             while (scanner.hasNextLine()) {
@@ -426,8 +447,122 @@ public class Menu {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
         }
     }
+    // Modo disciplina e turma
+    private static void cadastrarDisciplina() {
+        List<Disciplina> disciplinas = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("===== CADASTRO DE DISCIPLINA =====");
+        System.out.println("Digite os dados da disciplina:");
+        System.out.print("Nome da disciplina: ");
+        String nome = sc.nextLine();
+        System.out.print("Código da disciplina: ");
+        String codigo = sc.nextLine();
+        System.out.print("Carga horária: ");
+        int cargaHoraria = sc.nextInt();
+        sc.nextLine(); // quebra de linha
+
+        Disciplina disciplina = new Disciplina(nome, codigo, cargaHoraria);
+
+        System.out.print("Deseja adicionar pré-requisitos? (s/n): ");
+        String resposta = sc.nextLine();
+        while (resposta.equalsIgnoreCase("s")) {
+            System.out.print("Código do pré-requisito: ");
+            String prereq = sc.nextLine();
+            disciplina.adicionarPreRequisito(prereq);
+            System.out.print("Adicionar outro? (s/n): ");
+            resposta = sc.nextLine();
+        }
+
+        disciplinas.add(disciplina);
+        System.out.println("Disciplina cadastrada com sucesso.");
+    }
+
+    private static void listarDisciplinas() {
+        List<Disciplina> disciplinas = new ArrayList<>();
+        if (disciplinas.isEmpty()) {
+            System.out.println("Nenhuma disciplina cadastrada.");
+            return;
+        }
+
+        for (Disciplina d : disciplinas) {
+            System.out.println(d);
+        }
+    }
+
+    private static void criarTurma() {
+        List<Disciplina> disciplinas = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        if (disciplinas.isEmpty()) {
+            System.out.println("Cadastre uma disciplina antes de criar uma turma.");
+            return;
+        }
+
+        System.out.println("Escolha a disciplina pelo código:");
+        for (Disciplina d : disciplinas) {
+            System.out.println("- " + d.getCodigo() + ": " + d.getNome());
+        }
+        System.out.print("Código: ");
+        String codigo = sc.nextLine();
+
+        Disciplina disciplinaSelecionada = null;
+        for (Disciplina d : disciplinas) {
+            if (d.getCodigo().equalsIgnoreCase(codigo)) {
+                disciplinaSelecionada = d;
+                break;
+            }
+        }
+
+        if (disciplinaSelecionada == null) {
+            System.out.println("Disciplina não encontrada.");
+            return;
+        }
+
+        System.out.print("Código da turma: ");
+        String codTurma = sc.nextLine();
+        System.out.print("Professor responsável: ");
+        String professor = sc.nextLine();
+        System.out.print("Semestre (ex: 2025.1): ");
+        String semestre = sc.nextLine();
+        System.out.print("Forma de avaliação (simples ou ponderada): ");
+        String forma = sc.nextLine();
+        System.out.print("A turma será presencial? (s/n): ");
+        boolean presencial = sc.nextLine().equalsIgnoreCase("s");
+        String sala = presencial ? pedirTexto("Sala: ") : "";
+        System.out.print("Horário: ");
+        String horario = sc.nextLine();
+        System.out.print("Capacidade máxima: ");
+        int capacidade = sc.nextInt();
+        sc.nextLine(); // quebra de linha
+
+        Turma turma = new Turma(codTurma, professor, semestre, forma, presencial, sala, horario, capacidade);
+        disciplinaSelecionada.adicionarTurma(turma);
+
+        System.out.println("Turma criada com sucesso.");
+    }
+
+    private static void listarTurmasPorDisciplina() {
+        List<Disciplina> disciplinas = new ArrayList<>();
+        if (disciplinas.isEmpty()) {
+            System.out.println("Nenhuma disciplina cadastrada.");
+            return;
+        }
+
+        for (Disciplina d : disciplinas) {
+            System.out.println("\n" + d);
+            List<Turma> turmas = d.getTurmas();
+            if (turmas.isEmpty()) {
+                System.out.println("  Nenhuma turma cadastrada.");
+            } else {
+                for (Turma t : turmas) {
+                    System.out.println("  " + t);
+                }
+            }
+        }
+    }
+
+    private static String pedirTexto(String prompt) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print(prompt);
+        return sc.nextLine();
+    }
 }
-
-
-// O esqueleto do projeto ta pronto falta adicionar cada funcao em cada parte do menu para a implementacao completa do projeto
-// e adicionar as classes de aluno normal e especial, disciplina, turma, professor. 
