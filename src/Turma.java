@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Turma extends Disciplina {
     // Atributos
@@ -59,17 +61,29 @@ public class Turma extends Disciplina {
     public String getCodTurma() {
         return codTurma;
     }
+    public void setCodTurma(String codTurma) {
+        this.codTurma = codTurma;
+    }
 
     public String getProfessorResponsavel() {
         return professorResponsavel;
+    }
+    public void setProfessorResponsavel(String professorResponsavel) {
+        this.professorResponsavel = professorResponsavel;
     }
 
     public String getSemestre() {
         return semestre;
     }
+    public void setSemestre(String semestre) {
+        this.semestre = semestre;
+    }
 
     public String getFormaAvaliacao() {
         return formaAvaliacao;
+    }
+    public void setFormaAvaliacao(String formaAvaliacao) {
+        this.formaAvaliacao = formaAvaliacao;
     }
 
     public boolean isPresencial() {
@@ -79,9 +93,15 @@ public class Turma extends Disciplina {
     public String getSala() {
         return sala;
     }
+    public void setSala(String sala) {
+        this.sala = sala;
+    }
 
     public String getHorario() {
         return horario;
+    }
+    public void setHorario(String horario) {
+        this.horario = horario;
     }
 
     public int getCapacidadeMaxima() {
@@ -91,12 +111,27 @@ public class Turma extends Disciplina {
     public List<Aluno> getAlunosMatriculados() {
         return alunosMatriculados;
     }
+    public void setAlunosMatriculados(List<Aluno> alunosMatriculados) {
+        this.alunosMatriculados = alunosMatriculados;
+    }
 
     @Override
     public String toString() {
         return "Turma " + codTurma + " - " + (presencial ? "Presencial" : "Remota")
                 + " - Prof: " + professorResponsavel + " - Horário: " + horario;
     }
-}
+    private Map<Aluno, RegistroAcademico> registros = new HashMap<>();
 
+    public void registrarNotaEFrequencia(Aluno aluno, double[] notas, int presencas, int totalAulas ) {
+        RegistroAcademico reg = registros.getOrDefault(aluno, new RegistroAcademico());
+        reg.notas = notas;
+        reg.presencas = presencas;
+        reg.totalAulas = totalAulas;
+        registros.put(aluno, reg);
+    }
+
+    public RegistroAcademico getRegistro(Aluno aluno) {
+        return registros.get(aluno);
+    }
+}
  
