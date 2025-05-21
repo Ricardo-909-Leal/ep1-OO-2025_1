@@ -1,8 +1,13 @@
-
 public class RegistroAcademico {
     public double[] notas = new double[5]; // P1, P2, P3, L, S
     public int totalAulas = 0;
     public int presencas = 0;
+
+    public RegistroAcademico(double[] notas,int presencas,int totalAulas) {
+        this.notas = notas;
+        this.presencas = presencas;
+        this.totalAulas = totalAulas;
+    }
 
     public double calcularMedia(String formaAvaliacao) {
         if (formaAvaliacao.equalsIgnoreCase("simples")) {
@@ -17,6 +22,5 @@ public class RegistroAcademico {
     public double calcularFrequencia() {
         return totalAulas == 0 ? 0 : (presencas * 100.0) / totalAulas;
     }
-    
-}
 
+}
