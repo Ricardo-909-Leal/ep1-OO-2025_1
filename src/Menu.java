@@ -820,86 +820,101 @@ public class Menu {
         }
     }
     private static void lancarNotasPresenca() {
-    Scanner scanner = new Scanner(System.in);
-    System.out.print("Código da disciplina: ");
-    String codDisc = scanner.nextLine();
-    String nomeArquivo = "disciplina_" + codDisc + ".txt";
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Código da disciplina: ");
+        String codDisc = scanner.nextLine();
+        String nomeArquivo = "disciplina_" + codDisc + ".txt";
 
-    System.out.print("Código da turma: ");
-    String codTurma = scanner.nextLine();
+        System.out.print("Código da turma: ");
+        String codTurma = scanner.nextLine();
 
-    // Lê todas as linhas do arquivo da disciplina
-    ArrayList<String> linhas = new ArrayList<>();
-    boolean turmaEncontrada = false;
-    boolean alunoEncontrado = false;
+        ArrayList<String> linhas = new ArrayList<>();
+        boolean turmaEncontrada = false;
+        boolean alunoEncontrado = false;
 
-    try (Scanner fileScanner = new Scanner(new java.io.File(nomeArquivo))) {
-        while (fileScanner.hasNextLine()) {
-            String linha = fileScanner.nextLine();
-            // Detecta a turma
-            if (linha.startsWith("Turma: ") && linha.contains("Turma: " + codTurma)) {
-                turmaEncontrada = true;
-                linhas.add(linha);
-                continue;
-            }
-            // Para alunos matriculados na turma
-            if (turmaEncontrada && linha.contains("Turma: " + codTurma) && linha.contains("[MATRICULADO]")) {
-                alunoEncontrado = true;
-                System.out.println("\n" + linha);
-                System.out.print("Nota P1: ");
-                double p1 = scanner.nextDouble();
-                System.out.print("Nota P2: ");
-                double p2 = scanner.nextDouble();
-                System.out.print("Nota P3: ");
-                double p3 = scanner.nextDouble();
-                System.out.print("Nota Listas: ");
-                double listas = scanner.nextDouble();
-                System.out.print("Nota Seminário: ");
-                double seminario = scanner.nextDouble();
-                System.out.print("Presenças: ");
-                int presencas = scanner.nextInt();
-                scanner.nextLine();
+        try (Scanner fileScanner = new Scanner(new java.io.File(nomeArquivo))) {
+            while (fileScanner.hasNextLine()) {
+                String linha = fileScanner.nextLine();
 
-                double[] notas = {p1, p2, p3, listas, seminario};
+                // Detecta a turma
+                if (linha.startsWith("Turma: ") && linha.contains("Turma: " + codTurma)) {
+                    turmaEncontrada = true;
+                }
+
+                // Para alunos matriculados na turma
+                if (turmaEncontrada && linha.contains("Turma: " + codTurma) && linha.contains("[MATRICULADO]")) {
+                    alunoEncontrado = true;
+                    System.out.println("\n" + linha);
+                    System.out.print("Nota P1: ");
+                    double p1 = scanner.nextDouble();
+                    System.out.print("Nota P2: ");
+                    double p2 = scanner.nextDouble();
+                    System.out.print("Nota P3: ");
+                    double p3 = scanner.nextDouble();
+                    System.out.print("Nota Listas: ");
+                    double listas = scanner.nextDouble();
+                    System.out.print("Nota Seminário: ");
+                    double seminario = scanner.nextDouble();
+                    System.out.print("Presenças: ");
+                    int presencas = scanner.nextInt();
+                    scanner.nextLine();
+
+                    double[] notas = {p1, p2, p3, listas, seminario};
                     // Descobrir a forma de avaliação da turma (simples ou ponderada)
-                String formaAvaliacao = "simples";
+                    String formaAvaliacao = "simples";
                     // Procura na linha da turma
-                for (String l : linhas) {
-                    if (l.startsWith("Turma: ") && l.contains("Turma: " + codTurma)) {
-                        if (l.toLowerCase().contains("ponderada")) formaAvaliacao = "ponderada";
-                        break;
+                    if (linha.toLowerCase().contains("ponderada")) formaAvaliacao = "ponderada";
+                    RegistroAcademico registroAcademico = new RegistroAcademico(notas, presencas);
+
+                    double media = registroAcademico.calcularMedia(formaAvaliacao);
+                    // Supondo que você sabe o total de aulas da turma (exemplo: peça ao usuário)
+                    System.out.print("Total de aulas da turma: ");
+                    int totalAulas = scanner.nextInt();
+                    scanner.nextLine();
+                    double frequencia = (totalAulas > 0) ? (presencas * 100.0 / totalAulas) : 0.0;
+
+                    // Checa aprovação/reprovação
+                    String status;
+                    if (media < 5.0) {
+                        status = "REPROVADO POR NOTA";
+                    } else if (frequencia < 75.0) {
+                        status = "REPROVADO POR FALTA";
+                    } else {
+                        status = "APROVADO";
                     }
-                }
-                RegistroAcademico registroAcademico = new RegistroAcademico(notas, presencas, 0);
 
-                linha = linha + String.format(" Nota: %.2f, Presenças: %d",
-                    registroAcademico.calcularMedia(formaAvaliacao), presencas);
+                    // Atualiza a linha do aluno com as notas, presenças, frequência e status
+                    linha = linha + String.format(" Nota: %.2f, Presenças: %d, Frequência: %.1f%%, %s",
+                            media, presencas, frequencia, status);
                 }
-                
-            // Se chegar em outra turma, para de lançar notas
-            if (turmaEncontrada && linha.startsWith("Turma: ") && !linha.contains("Turma: " + codTurma)) {
-                turmaEncontrada = false;
+
+                // Se chegar em outra turma, para de lançar notas
+                if (turmaEncontrada && linha.startsWith("Turma: ") && !linha.contains("Turma: " + codTurma)) {
+                    turmaEncontrada = false;
+                }
+
+                // Adiciona TODAS as linhas à lista, modificadas ou não
+                linhas.add(linha);
             }
+        } catch (IOException e) {
+            System.out.println("Arquivo da disciplina não encontrado.");
+            return;
         }
-    } catch (IOException e) {
-        System.out.println("Arquivo da disciplina não encontrado.");
-        return;
-    }
 
-    if (!alunoEncontrado) {
-        System.out.println("Nenhum aluno matriculado encontrado para essa turma.");
-        return;
-    }
-
-    // Salva as alterações no arquivo
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo))) {
-        for (String linha : linhas) {
-            writer.write(linha);
-            writer.newLine();
+        if (!alunoEncontrado) {
+            System.out.println("Nenhum aluno matriculado encontrado para essa turma.");
+            return;
         }
-        System.out.println("Notas e presenças lançadas com sucesso!");
-    } catch (IOException e) {
-        System.out.println("Erro ao salvar notas: " + e.getMessage());
+
+        // Salva as alterações no arquivo
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo))) {
+            for (String linha : linhas) {
+                writer.write(linha);
+                writer.newLine();
+            }
+            System.out.println("Notas e presenças lançadas com sucesso!");
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar notas: " + e.getMessage());
         }
     }
 
