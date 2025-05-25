@@ -41,7 +41,6 @@ public class Disciplina {
         this.codigo = codigo;
     }
 
-
     public int getCargaHoraria() {
         return cargaHoraria;
     }
@@ -61,7 +60,6 @@ public class Disciplina {
     public void setTurmas(List<Turma> turmas) {
         this.turmas = turmas;
     }
-    
     @Override
     public String toString() {
         return codigo + " - " + nome + " (" + cargaHoraria + "h)";

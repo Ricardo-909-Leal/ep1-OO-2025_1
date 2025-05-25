@@ -1,5 +1,4 @@
 public class AlunoEspecial extends Aluno {
-
     private String semestre;
     private String turno;
     

@@ -14,9 +14,9 @@ public class Turma extends Disciplina {
     private String horario;
     private int capacidadeMaxima;
     private List<Aluno> alunosMatriculados;
+    private Map<Aluno, RegistroAcademico> registros = new HashMap<>();
 
-    public Turma(String nome, String codigo,int cargaHoraria, String codTurma, String professorResponsavel, String semestre, String formaAvaliacao, boolean presencial, String sala, String horario, int capacidadeMaxima) {
-
+    public Turma(String nome, String codigo, int cargaHoraria, String codTurma, String professorResponsavel, String semestre, String formaAvaliacao, boolean presencial, String sala, String horario, int capacidadeMaxima) {
         super(nome, codigo, cargaHoraria); 
         this.codTurma = codTurma;
         this.professorResponsavel = professorResponsavel;
@@ -28,7 +28,8 @@ public class Turma extends Disciplina {
         this.capacidadeMaxima = capacidadeMaxima;
         this.alunosMatriculados = new ArrayList<>();
     }
-    public Turma(String codTurma, String professor,String semestre,String forma, boolean presencial,String sala,String horario,int capacidade) {
+
+    public Turma(String codTurma, String professor, String semestre, String forma, boolean presencial, String sala, String horario, int capacidade) {
         super("", "", 0); // Exemplo de valores
         this.codTurma = codTurma;
         this.professorResponsavel = professor;
@@ -40,7 +41,6 @@ public class Turma extends Disciplina {
         this.capacidadeMaxima = capacidade;
         this.alunosMatriculados = new ArrayList<>();
     }
-
 
     public boolean matricularAluno(Aluno aluno) {
         if (alunosMatriculados.size() < capacidadeMaxima) {
@@ -120,13 +120,14 @@ public class Turma extends Disciplina {
         return "Turma " + codTurma + " - " + (presencial ? "Presencial" : "Remota")
                 + " - Prof: " + professorResponsavel + " - Horário: " + horario;
     }
-    private Map<Aluno, RegistroAcademico> registros = new HashMap<>();
 
-    public void registrarNotaEFrequencia(Aluno aluno, double[] notas, int presencas, int totalAulas ) {
-        RegistroAcademico reg = registros.getOrDefault(aluno, new RegistroAcademico());
+    public void registrarNotaEFrequencia(Aluno aluno, double[] notas, int presencas) {
+        RegistroAcademico reg = registros.get(aluno);
+        if (reg == null) {
+            reg = new RegistroAcademico(notas, presencas);
+        }
         reg.notas = notas;
         reg.presencas = presencas;
-        reg.totalAulas = totalAulas;
         registros.put(aluno, reg);
     }
 
@@ -134,4 +135,3 @@ public class Turma extends Disciplina {
         return registros.get(aluno);
     }
 }
- 

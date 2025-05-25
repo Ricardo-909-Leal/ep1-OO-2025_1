@@ -3,7 +3,6 @@ public class AlunoRegular extends Aluno {
     private String semestre;
     private String turno;
 
-    
     public AlunoRegular(String nome, String matricula, String nascimento , String curso, String semestre, String turno ) {
         super(nome, matricula, nascimento);
         this.curso = curso;
@@ -39,7 +38,6 @@ public class AlunoRegular extends Aluno {
         System.out.println("Turno: " + turno);
     }
 
-    
     @Override
     public String toString() {
         return "Nome: " + getNome() + ", Matrícula: " + getMatricula() + ", Nascimento: " + getNascimento() + ", Curso: " + curso + ", Semestre: " + semestre + ", Turno: " + turno ;

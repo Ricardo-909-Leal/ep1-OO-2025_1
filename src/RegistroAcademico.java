@@ -8,7 +8,6 @@ public class RegistroAcademico {
         this.presencas = presencas;
         
     }
-
     public double calcularMedia(String formaAvaliacao) {
         if (formaAvaliacao.equalsIgnoreCase("simples")) {
             double soma = 0;

@@ -3,8 +3,6 @@ public abstract class Aluno {
     private String matricula;
     private String nascimento;
 
- //   private String presença;     ..... colocar como polimorfismo na aparte 3 do menu  
-
     public Aluno(String nome, String matricula, String nascimento) {
         this.nome = nome;
         this.matricula = matricula;
@@ -26,6 +24,7 @@ public abstract class Aluno {
     public String getNascimento() {
         return nascimento;
     }
+    
     public void setNascimento(String nascimento) {
         this.nascimento = nascimento;
     }
@@ -38,4 +37,18 @@ public abstract class Aluno {
     public String toString() {
         return "Nome: " + nome + ", Matrícula: " + matricula + ", Nascimento: " + nascimento ;
     } 
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Aluno aluno = (Aluno) obj;
+        return matricula.equals(aluno.matricula);
+    }
+
+
+    @Override
+    public int hashCode() {
+        return matricula.hashCode();
+    }
 }
