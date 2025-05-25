@@ -348,8 +348,8 @@ public class Menu {
                     do {
                         System.out.println("===== MENU =====");
                         System.out.println("1. Lançamento de notas e frequncia!");
-                        System.out.println("3. Relatório de turmas!");
-                        System.out.println("4. Relatório de alunos!");
+                        System.out.println("2. Relatório de turmas!");
+                        System.out.println("3. Relatório de alunos!");
                         System.out.println("9. Voltar ao menu principal");
                         opcao = lerInt(sc, "Escolha uma opção: ");
 
@@ -860,11 +860,22 @@ public class Menu {
                 int presencas = scanner.nextInt();
                 scanner.nextLine();
 
-                // Adiciona as notas e presenças ao final da linha
-                linha = linha + String.format(" [NOTAS] P1: %.2f, P2: %.2f, P3: %.2f, Listas: %.2f, Seminário: %.2f, Presenças: %d", 
-                    p1, p2, p3, listas, seminario, presencas);
-            }
-            linhas.add(linha);
+                double[] notas = {p1, p2, p3, listas, seminario};
+                    // Descobrir a forma de avaliação da turma (simples ou ponderada)
+                String formaAvaliacao = "simples";
+                    // Procura na linha da turma
+                for (String l : linhas) {
+                    if (l.startsWith("Turma: ") && l.contains("Turma: " + codTurma)) {
+                        if (l.toLowerCase().contains("ponderada")) formaAvaliacao = "ponderada";
+                        break;
+                    }
+                }
+                RegistroAcademico registroAcademico = new RegistroAcademico(notas, presencas, 0);
+
+                linha = linha + String.format(" Nota: %.2f, Presenças: %d",
+                    registroAcademico.calcularMedia(formaAvaliacao), presencas);
+                }
+                
             // Se chegar em outra turma, para de lançar notas
             if (turmaEncontrada && linha.startsWith("Turma: ") && !linha.contains("Turma: " + codTurma)) {
                 turmaEncontrada = false;
