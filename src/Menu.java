@@ -18,6 +18,7 @@ public class Menu {
         ArrayList<Turma> turmas = new ArrayList<>();
         List<Disciplina> disciplinas = new ArrayList<>();
         //ArrayList<Aluno> aluno = new ArrayList<>(alunosRegulares , alunosEspeciais);
+        carregarAlunos(alunosRegulares, alunosEspeciais);
 
         do {
             System.out.println("===== MENU =====");
@@ -375,8 +376,9 @@ public class Menu {
                     } while (opcao != 9);    
                 case 00:
                     System.out.println("Saindo e salvando...");
+                    
                      // Salvar os dados no arquivo .txt
-                     try (BufferedWriter writer = new BufferedWriter(new FileWriter("alunos.txt", true))) { // 'true' ativa o modo de acréscimo
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter("alunos.txt"))) { 
  
                         for (AlunoRegular aluno : alunosRegulares) {
                             writer.write(aluno.toString() + "\n");
@@ -920,7 +922,16 @@ public class Menu {
 
 
 
-
+    private static double lerDouble(Scanner sc, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                return Double.parseDouble(sc.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.println("Valor inválido! Digite um número decimal.");
+            }
+        }
+    }
 //teste
     private static int lerInt(Scanner sc, String prompt) {
         while (true) {
@@ -932,4 +943,39 @@ public class Menu {
             }
         }
     }
+    // Método para carregar alunos do arquivo
+    private static void carregarAlunos(ArrayList<AlunoRegular> alunosRegulares, ArrayList<AlunoEspecial> alunosEspeciais) {
+    try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
+        while (scanner.hasNextLine()) {
+            String linha = scanner.nextLine();
+            if (linha.startsWith("Nome:")) {
+                if (linha.contains("Curso:")) {
+                    // Aluno regular
+                    // Parse os campos conforme seu formato
+                    String[] partes = linha.split(",");
+                    String nome = partes[0].split(":")[1].trim();
+                    String matricula = partes[1].split(":")[1].trim();
+                    String nascimento = partes[2].split(":")[1].trim();
+                    String curso = partes[3].split(":")[1].trim();
+                    String semestre = partes[4].split(":")[1].trim();
+                    String turno = partes[5].split(":")[1].trim();
+                    alunosRegulares.add(new AlunoRegular(nome, matricula, nascimento, curso, semestre, turno));
+                } else {
+                    // Aluno especial
+                    String[] partes = linha.split(",");
+                    String nome = partes[0].split(":")[1].trim();
+                    String matricula = partes[1].split(":")[1].trim();
+                    String nascimento = partes[2].split(":")[1].trim();
+                    String semestre = partes[3].split(":")[1].trim();
+                    String turno = partes[4].split(":")[1].trim();
+                    alunosEspeciais.add(new AlunoEspecial(nome, matricula, nascimento, semestre, turno));
+                }
+            }
+        }
+    } catch (IOException e) {
+        System.out.println("Erro ao carregar alunos: " + e.getMessage());
+    }
+}
+    
+    
 }
