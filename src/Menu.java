@@ -100,6 +100,8 @@ public class Menu {
         
                                     
                                         case 3:
+                                        // Editar aluno
+                                            // Solicitar matrícula do aluno a ser editado
                                             System.out.println("===== EDITAR ALUNO =====");
                                             System.out.println("Digite a matrícula do aluno que deseja editar:");
                                             String matriculaEditar = sc.nextLine();
@@ -132,7 +134,10 @@ public class Menu {
                                                 editarAlunoNoArquivo(matriculaEditar, novosDados);
                                             }
                                             break;
+
                                         case 4:
+                                        // Remover aluno
+                                            // Solicitar matrícula do aluno a ser removido
                                             System.out.println("===== REMOVER ALUNO =====");
                                             System.out.println("Digite a matrícula do aluno que deseja remover:");
                                             String matriculaRemover = sc.nextLine();
@@ -178,6 +183,7 @@ public class Menu {
                                     switch (opcao) {
                                         case 1:
                                             // Matricula em disciplina 
+                                            // Solicitar matrícula do aluno e disciplina
                                             Scanner mat = new Scanner(System.in);
                                             System.out.println("Matricula em disciplina!");                                       
                                             System.out.println("Digite a matrícula do aluno:");
@@ -212,19 +218,6 @@ public class Menu {
                                                 System.out.println("Arquivo da disciplina não encontrado.");
                                             }
                                             boolean jaMatriculado = false;
-                                            /*try (Scanner scanner = new Scanner(new java.io.File(nomeArquivo))) {
-                                                while (scanner.hasNextLine()) {
-                                                    String linha = scanner.nextLine();
-                                                    if (linha.contains("Matrícula: " + matricula) && linha.contains("Turma: " + codigoTurma) && linha.contains("[MATRICULADO]")) {
-                                                        jaMatriculado = true;
-                                                        break;
-                                                    }
-                                                }
-                                            }
-                                            if (jaMatriculado) {
-                                                System.out.println("Aluno já está matriculado nesta turma!");
-                                                break;
-                                            }*/
 
                                             // Conta quantas matrículas esse aluno já tem em todas as disciplinas
                                             int turmasMatriculado = isEspecial ? contarMatriculasEspeciais(matricula) : 0;
@@ -244,7 +237,10 @@ public class Menu {
                                                 }
                                             }
                                             break;
+
                                         case 2:
+                                        // Trancamento de disciplina
+                                            // Solicitar matrícula do aluno e disciplina
                                             Scanner tram = new Scanner(System.in);
                                             System.out.println("Trancamento!");
                                             System.out.println("Digite a matrícula do aluno:");
@@ -288,24 +284,31 @@ public class Menu {
                                                 System.out.println("Matrícula não encontrada para trancamento!");
                                             }
                                             break;
+
                                         case 3:
                                             System.out.println("voltar ao modo aluno");
                                             break;   
+
                                         default:
                                             System.out.println("Opção inválida! Tente novamente.");
                                     }
+
                                 } while (opcao != 3);
+
                         case 9:
                             System.out.println("Voltando ao menu principal...");
                             break;
+
                         default:
                             System.out.println("Opção inválida! Tente novamente.");
                         }
+
                         System.out.println(); 
                     } while (opcao != 9);
                     break;
+
                 case 2:
-                // Modo disciplina/turma
+                                                    // Modo disciplina/turma
                     do {
                         System.out.println("=== MENU PRINCIPAL ===");
                         System.out.println("1. Cadastrar Disciplina");
@@ -320,30 +323,37 @@ public class Menu {
                                 // Cadastrar disciplina
                                 cadastrarDisciplina();
                                 break;
+
                             case 2:
                                 // Listar disciplinas
                                 System.out.println("===== LISTA DE DISCIPLINAS =====");
                                 listarDisciplinasDoArquivo();
                                 break;
+
                             case 3:
                                 // Criar turma
                                 System.out.println("===== CRIAÇÃO DE TURMA =====");
                                 criarTurma();
                                 break;
+
                             case 4:
                                 // Listar turmas
                                 System.out.println("===== LISTA DE TURMAS POR DISCIPLINA =====");
                                 listarTurmasDoArquivo();
-                                break;                            
+                                break; 
+
                             case 9:
                                 System.out.println("voltando ao menu!");
                                 break;
+
                             default:
                                 System.out.println("Opção inválida!");
                         }
+
                         System.out.println();
                     } while (opcao != 9);
                     break;
+
                 case 3:
                     // Modo avaliação/frequência
                     do {
@@ -356,24 +366,33 @@ public class Menu {
 
                         switch (opcao) {
                             case 1:
+                                // Lançamento de notas e frequência
                                 System.out.println("Lançamento de notas e frequencia!");
                                 lancarNotasPresenca();
                                 break;
+
                             case 2:
+                                // Relatório de turmas
                                 System.out.println("Relatório de turmas!");
                                 relatorioPorTurma();
                                 break;
+
                             case 3:
+                                // Relatório de alunos
                                 System.out.println("Relatório de alunos!");
                                 boletimPorAluno();
                                 break;
+
                             case 9:
                                 System.out.println("voltar ao menu principal");
                                 break;
+
                             default:
                                 System.out.println("Opção inválida! Tente novamente.");
                         }
-                    } while (opcao != 9);    
+
+                    } while (opcao != 9); 
+
                 case 00:
                     System.out.println("Saindo e salvando...");
                     
@@ -405,7 +424,51 @@ public class Menu {
         sc.close();
         
     }
-//salvamento dos dados no arquivo .txt
+
+
+
+
+
+
+
+                                    //salvamento e caregamento dados 
+
+// Método para carregar alunos do arquivo
+    private static void carregarAlunos(ArrayList<AlunoRegular> alunosRegulares, ArrayList<AlunoEspecial> alunosEspeciais) {
+        try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                if (linha.startsWith("Nome:")) {
+                    if (linha.contains("Curso:")) {
+                        // Aluno regular
+                        // Parse os campos conforme seu formato
+                        String[] partes = linha.split(",");
+                        String nome = partes[0].split(":")[1].trim();
+                        String matricula = partes[1].split(":")[1].trim();
+                        String nascimento = partes[2].split(":")[1].trim();
+                        String curso = partes[3].split(":")[1].trim();
+                        String semestre = partes[4].split(":")[1].trim();
+                        String turno = partes[5].split(":")[1].trim();
+                        alunosRegulares.add(new AlunoRegular(nome, matricula, nascimento, curso, semestre, turno));
+                    } else {
+                        // Aluno especial
+                        String[] partes = linha.split(",");
+                        String nome = partes[0].split(":")[1].trim();
+                        String matricula = partes[1].split(":")[1].trim();
+                        String nascimento = partes[2].split(":")[1].trim();
+                        String semestre = partes[3].split(":")[1].trim();
+                        String turno = partes[4].split(":")[1].trim();
+                        alunosEspeciais.add(new AlunoEspecial(nome, matricula, nascimento, semestre, turno));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Erro ao carregar alunos: " + e.getMessage());
+        }
+    }
+
+
+//salvamento dos dados no arquivo alunos.txt
     public static void atualizarArquivo(ArrayList<AlunoRegular> alunosRegulares, ArrayList<AlunoEspecial> alunosEspeciais) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("alunos.txt"))) { // Sobrescreve o arquivo
             writer.write("===== Lista de Alunos Regulares =====\n");
@@ -423,7 +486,12 @@ public class Menu {
             System.out.println("Erro ao atualizar o arquivo: " + e.getMessage());
         }
     }
-//modo aluno
+
+
+                                //modo aluno
+
+
+    //verificação de matricula duplicada
     public static boolean verificarDuplicidadeDeMatricula(String matricula) {
         try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
             while (scanner.hasNextLine()) {
@@ -438,6 +506,8 @@ public class Menu {
         return false; // Matrícula não encontrada
     }
 
+
+    //Busca de aluno no arquivo aluno.txt
     public static String buscarAlunoNoArquivo(String matricula) {
         try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
             while (scanner.hasNextLine()) {
@@ -452,6 +522,8 @@ public class Menu {
         return null; // Retorna null se o aluno não for encontrado
     }
 
+
+    //Remover aluno do arquivo alunos.txt
     public static void removerAlunoNoArquivo(String matricula) {
         try {
             java.io.File arquivo = new java.io.File("alunos.txt");
@@ -487,7 +559,9 @@ public class Menu {
             System.out.println("Erro ao remover o aluno: " + e.getMessage());
         }
     }
-    
+
+
+    //Edição do aluno no arquivo alunos.txt
     public static void editarAlunoNoArquivo(String matricula, String novosDados) {
         try {
             java.io.File arquivo = new java.io.File("alunos.txt");
@@ -524,6 +598,8 @@ public class Menu {
             System.out.println("Erro ao editar o arquivo: " + e.getMessage());
         }
     }
+
+    //Listagem de alunos do arquivo alunos.txt
     public static void listarAlunosDoArquivo() {
         try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
             System.out.println("===== Lista de Alunos =====");
@@ -535,7 +611,18 @@ public class Menu {
             System.out.println("Erro ao ler o arquivo: " + e.getMessage());
         }
     }
-    // Modo disciplina e turma
+
+
+
+
+
+
+
+
+
+                                    // Modo disciplina e turma
+
+    //Cadastro de disiplina no arquivo disciplinas.txt
     private static void cadastrarDisciplina() {
         List<Disciplina> disciplinas = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
@@ -574,131 +661,121 @@ public class Menu {
         }
     }
 
+    // Listagem de disciplinas do arquivo disciplinas.txt
     public static void listarDisciplinasDoArquivo() {
-    try (Scanner scanner = new Scanner(new java.io.File("disciplinas.txt"))) {
-        System.out.println("===== Disciplinas Cadastradas =====");
-        while (scanner.hasNextLine()) {
-            System.out.println(scanner.nextLine());
-        }
-    } catch (IOException e) {
-        System.out.println("Erro ao ler disciplinas: " + e.getMessage());
-    }
-}
-    public static int contarMatriculasEspeciais(String matricula) {
-    int total = 0;
-    java.io.File pasta = new java.io.File(".");
-    for (java.io.File file : pasta.listFiles()) {
-        if (file.getName().startsWith("disciplina_") && file.getName().endsWith(".txt")) {
-            try (Scanner scanner = new Scanner(file)) {
-                while (scanner.hasNextLine()) {
-                    String linha = scanner.nextLine();
-                    if (linha.contains("Matrícula: " + matricula) && linha.contains("[MATRICULADO]")) {
-                        total++;
-                    }
-                }
-            } catch (IOException e) {
-                // Ignora arquivos que não podem ser lidos
+        try (Scanner scanner = new Scanner(new java.io.File("disciplinas.txt"))) {
+            System.out.println("===== Disciplinas Cadastradas =====");
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
             }
-        }
-    }
-    return total;
-}
-  private static void criarTurma() {
-    List<String> codigosDisciplinas = new ArrayList<>();
-    List<String> nomesDisciplinas = new ArrayList<>();
-    
-
-    // Lê o arquivo disciplinas.txt e armazena códigos e nomes
-    try (Scanner scanner = new Scanner(new java.io.File("disciplinas.txt"))) {
-        while (scanner.hasNextLine()) {
-            String linha = scanner.nextLine();            
-            String[] partes = linha.split(",");
-            String nome = "";
-            String codigo = "";
-            for (String parte : partes) {
-                if (parte.trim().startsWith("Nome:")) {
-                    nome = parte.trim().replace("Nome:", "").trim();
-                }
-                if (parte.trim().startsWith("Código:")) {
-                    codigo = parte.trim().replace("Código:", "").trim();
-                }
-            }
-            if (!codigo.isEmpty() && !nome.isEmpty()) {
-                codigosDisciplinas.add(codigo);
-                nomesDisciplinas.add(nome);
-            }
-        }
         } catch (IOException e) {
             System.out.println("Erro ao ler disciplinas: " + e.getMessage());
-            return;
-        }
+            }
+       }
 
-        if (codigosDisciplinas.isEmpty()) {
-            System.out.println("Nenhuma disciplina cadastrada. Cadastre uma disciplina antes de criar uma turma.");
-            return;
-        }
-
-        System.out.println("Escolha a disciplina pelo código:");
-        for (int i = 0; i < codigosDisciplinas.size(); i++) {
-            System.out.println("- " + codigosDisciplinas.get(i) + ": " + nomesDisciplinas.get(i));
-        }
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Código: ");
-        String codigoEscolhido = sc.nextLine();
-
-        String nomeDisciplinaSelecionada = "";
-        for (int i = 0; i < codigosDisciplinas.size(); i++) {
-            if (codigosDisciplinas.get(i).equalsIgnoreCase(codigoEscolhido)) {
-                nomeDisciplinaSelecionada = nomesDisciplinas.get(i);
-                break;
+    // Contagem de matrículas especiais
+    public static int contarMatriculasEspeciais(String matricula) {
+        int total = 0;
+        java.io.File pasta = new java.io.File(".");
+        for (java.io.File file : pasta.listFiles()) {
+            if (file.getName().startsWith("disciplina_") && file.getName().endsWith(".txt")) {
+                try (Scanner scanner = new Scanner(file)) {
+                    while (scanner.hasNextLine()) {
+                        String linha = scanner.nextLine();
+                        if (linha.contains("Matrícula: " + matricula) && linha.contains("[MATRICULADO]")) {
+                            total++;
+                        }
+                    }
+                } catch (IOException e) {
+                    // Ignora arquivos que não podem ser lidos
+                }
             }
         }
+        return total;
+    }
 
-        if (nomeDisciplinaSelecionada.isEmpty()) {
-            System.out.println("Disciplina não encontrada.");
-            return;
-        }
+    //criação de turma
+    private static void criarTurma() {
+        List<String> codigosDisciplinas = new ArrayList<>();
+        List<String> nomesDisciplinas = new ArrayList<>();
+        
 
-        System.out.print("Código da turma: ");
-        String codTurma = sc.nextLine();
-        System.out.print("Professor responsável: ");
-        String professor = sc.nextLine();
-        System.out.print("Semestre (ex: 2025.1): ");
-        String semestre = sc.nextLine();
-        System.out.print("Forma de avaliação (simples ou ponderada): ");
-        String forma = sc.nextLine();
-        System.out.print("A turma será presencial? (s/n): ");
-        boolean presencial = sc.nextLine().equalsIgnoreCase("s");
-        String sala = presencial ? pedirTexto("Sala: ") : "";
-        System.out.print("Horário: ");
-        String horario = sc.nextLine();
-        System.out.print("Capacidade máxima: ");
-        int capacidade = sc.nextInt();
-        sc.nextLine(); // quebra de linha
+        // Lê o arquivo disciplinas.txt e armazena códigos e nomes
+        try (Scanner scanner = new Scanner(new java.io.File("disciplinas.txt"))) {
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();            
+                String[] partes = linha.split(",");
+                String nome = "";
+                String codigo = "";
+                for (String parte : partes) {
+                    if (parte.trim().startsWith("Nome:")) {
+                        nome = parte.trim().replace("Nome:", "").trim();
+                    }
+                    if (parte.trim().startsWith("Código:")) {
+                        codigo = parte.trim().replace("Código:", "").trim();
+                    }
+                }
+                if (!codigo.isEmpty() && !nome.isEmpty()) {
+                    codigosDisciplinas.add(codigo);
+                    nomesDisciplinas.add(nome);
+                }
+            }
+            } catch (IOException e) {
+                System.out.println("Erro ao ler disciplinas: " + e.getMessage());
+                return;
+            }
 
-        Turma turma = new Turma(codTurma, professor, semestre, forma, presencial, sala, horario, capacidade);
-//        disciplinaSelecionada.adicionarTurma(turma);
+            if (codigosDisciplinas.isEmpty()) {
+                System.out.println("Nenhuma disciplina cadastrada. Cadastre uma disciplina antes de criar uma turma.");
+                return;
+            }
 
-        System.out.println("Turma criada com sucesso.");
+            System.out.println("Escolha a disciplina pelo código:");
+            for (int i = 0; i < codigosDisciplinas.size(); i++) {
+                System.out.println("- " + codigosDisciplinas.get(i) + ": " + nomesDisciplinas.get(i));
+            }
+            Scanner sc = new Scanner(System.in);
+            System.out.print("Código: ");
+            String codigoEscolhido = sc.nextLine();
 
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("turmas.txt", true))) {
-            writer.write("Disciplina: " + nomeDisciplinaSelecionada +
-                     ", Código Turma: " + codTurma +
-                     ", Professor: " + professor +
-                     ", Semestre: " + semestre +
-                     ", Forma: " + forma +
-                     ", Presencial: " + presencial +
-                     ", Sala: " + sala +
-                     ", Horário: " + horario +
-                     ", Capacidade: " + capacidade);
-            writer.newLine();
-            System.out.println("Turma salva em turmas.txt.");
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar turma: " + e.getMessage());
-        }
-        String nomeArquivo = "disciplina_" + codigoEscolhido + ".txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
-            writer.write("Turma: " + codTurma +
+            String nomeDisciplinaSelecionada = "";
+            for (int i = 0; i < codigosDisciplinas.size(); i++) {
+                if (codigosDisciplinas.get(i).equalsIgnoreCase(codigoEscolhido)) {
+                    nomeDisciplinaSelecionada = nomesDisciplinas.get(i);
+                    break;
+                }
+            }
+
+            if (nomeDisciplinaSelecionada.isEmpty()) {
+                System.out.println("Disciplina não encontrada.");
+                return;
+            }
+
+            System.out.print("Código da turma: ");
+            String codTurma = sc.nextLine();
+            System.out.print("Professor responsável: ");
+            String professor = sc.nextLine();
+            System.out.print("Semestre (ex: 2025.1): ");
+            String semestre = sc.nextLine();
+            System.out.print("Forma de avaliação (simples ou ponderada): ");
+            String forma = sc.nextLine();
+            System.out.print("A turma será presencial? (s/n): ");
+            boolean presencial = sc.nextLine().equalsIgnoreCase("s");
+            String sala = presencial ? pedirTexto("Sala: ") : "";
+            System.out.print("Horário: ");
+            String horario = sc.nextLine();
+            System.out.print("Capacidade máxima: ");
+            int capacidade = sc.nextInt();
+            sc.nextLine(); // quebra de linha
+
+            Turma turma = new Turma(codTurma, professor, semestre, forma, presencial, sala, horario, capacidade);
+    //        disciplinaSelecionada.adicionarTurma(turma);
+
+            System.out.println("Turma criada com sucesso.");
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("turmas.txt", true))) {
+                writer.write("Disciplina: " + nomeDisciplinaSelecionada +
+                        ", Código Turma: " + codTurma +
                         ", Professor: " + professor +
                         ", Semestre: " + semestre +
                         ", Forma: " + forma +
@@ -706,13 +783,30 @@ public class Menu {
                         ", Sala: " + sala +
                         ", Horário: " + horario +
                         ", Capacidade: " + capacidade);
-            writer.newLine();
-            System.out.println("Turma salva em " + nomeArquivo);
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar turma: " + e.getMessage());
+                writer.newLine();
+                System.out.println("Turma salva em turmas.txt.");
+            } catch (IOException e) {
+                System.out.println("Erro ao salvar turma: " + e.getMessage());
+            }
+            String nomeArquivo = "disciplina_" + codigoEscolhido + ".txt";
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomeArquivo, true))) {
+                writer.write("Turma: " + codTurma +
+                            ", Professor: " + professor +
+                            ", Semestre: " + semestre +
+                            ", Forma: " + forma +
+                            ", Presencial: " + presencial +
+                            ", Sala: " + sala +
+                            ", Horário: " + horario +
+                            ", Capacidade: " + capacidade);
+                writer.newLine();
+                System.out.println("Turma salva em " + nomeArquivo);
+            } catch (IOException e) {
+                System.out.println("Erro ao salvar turma: " + e.getMessage());
+            }
         }
-    }
 
+
+    // Listagem de turmas do arquivo
     public static void listarTurmasDoArquivo() {
         try (Scanner scanner = new Scanner(new java.io.File("turmas.txt"))) {
             System.out.println("===== Turmas Cadastradas =====");
@@ -723,6 +817,9 @@ public class Menu {
             System.out.println("Erro ao ler turmas: " + e.getMessage());
         }
     }
+
+
+    // Busca de turma no arquivo 
     public static String buscarTurmaNoArquivo(String codTurma) {
         try (Scanner scanner = new Scanner(new java.io.File("turmas.txt"))) {
             while (scanner.hasNextLine()) {
@@ -737,25 +834,32 @@ public class Menu {
         }
         return null; // Retorna null se não encontrar
     }
+
+
+    // Listagem de turmas de cada  disciplina em arquivo disciplina_codigo.txt
     public static void listarArquivoDisciplina(String codigoDisciplina) {
     String nomeArquivo = "disciplina_" + codigoDisciplina + ".txt";
-    try (Scanner scanner = new Scanner(new java.io.File(nomeArquivo))) {
-        System.out.println("=== Dados da disciplina " + codigoDisciplina + " ===");
-        while (scanner.hasNextLine()) {
-            System.out.println(scanner.nextLine());
+        try (Scanner scanner = new Scanner(new java.io.File(nomeArquivo))) {
+            System.out.println("=== Dados da disciplina " + codigoDisciplina + " ===");
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
+            }
+        } catch (IOException e) {
+            System.out.println("Arquivo da disciplina não encontrado.");
         }
-    } catch (IOException e) {
-        System.out.println("Arquivo da disciplina não encontrado.");
     }
-}
 
-    private static String pedirTexto(String prompt) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print(prompt);
-        return sc.nextLine();
-    }
-    //menu 3
-    //relatorios
+
+
+
+
+
+
+
+                        //modo avaliação e frequencia 
+
+
+    //relatorios por turma
     private static void relatorioPorTurma() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Código da disciplina: ");
@@ -788,6 +892,9 @@ public class Menu {
             System.out.println("Arquivo da disciplina não encontrado.");
         }
     }
+
+
+    //Relatorio por aluno
     private static void boletimPorAluno() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Matrícula do aluno: ");
@@ -821,6 +928,10 @@ public class Menu {
             System.out.println("Nenhuma matrícula ativa encontrada para este aluno.");
         }
     }
+
+
+
+    //lançamento de notas e presenças
     private static void lancarNotasPresenca() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Código da disciplina: ");
@@ -922,6 +1033,16 @@ public class Menu {
 
 
 
+
+
+
+                           // Método auxiliar para pedir texto ao usuário
+
+    private static String pedirTexto(String prompt) {
+            Scanner sc = new Scanner(System.in);
+            System.out.print(prompt);
+            return sc.nextLine();
+        }
     private static double lerDouble(Scanner sc, String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -932,7 +1053,6 @@ public class Menu {
             }
         }
     }
-//teste
     private static int lerInt(Scanner sc, String prompt) {
         while (true) {
             System.out.print(prompt);
@@ -943,39 +1063,5 @@ public class Menu {
             }
         }
     }
-    // Método para carregar alunos do arquivo
-    private static void carregarAlunos(ArrayList<AlunoRegular> alunosRegulares, ArrayList<AlunoEspecial> alunosEspeciais) {
-    try (Scanner scanner = new Scanner(new java.io.File("alunos.txt"))) {
-        while (scanner.hasNextLine()) {
-            String linha = scanner.nextLine();
-            if (linha.startsWith("Nome:")) {
-                if (linha.contains("Curso:")) {
-                    // Aluno regular
-                    // Parse os campos conforme seu formato
-                    String[] partes = linha.split(",");
-                    String nome = partes[0].split(":")[1].trim();
-                    String matricula = partes[1].split(":")[1].trim();
-                    String nascimento = partes[2].split(":")[1].trim();
-                    String curso = partes[3].split(":")[1].trim();
-                    String semestre = partes[4].split(":")[1].trim();
-                    String turno = partes[5].split(":")[1].trim();
-                    alunosRegulares.add(new AlunoRegular(nome, matricula, nascimento, curso, semestre, turno));
-                } else {
-                    // Aluno especial
-                    String[] partes = linha.split(",");
-                    String nome = partes[0].split(":")[1].trim();
-                    String matricula = partes[1].split(":")[1].trim();
-                    String nascimento = partes[2].split(":")[1].trim();
-                    String semestre = partes[3].split(":")[1].trim();
-                    String turno = partes[4].split(":")[1].trim();
-                    alunosEspeciais.add(new AlunoEspecial(nome, matricula, nascimento, semestre, turno));
-                }
-            }
-        }
-    } catch (IOException e) {
-        System.out.println("Erro ao carregar alunos: " + e.getMessage());
-    }
-}
-    
-    
+     
 }

@@ -30,7 +30,7 @@ public class Turma extends Disciplina {
     }
 
     public Turma(String codTurma, String professor, String semestre, String forma, boolean presencial, String sala, String horario, int capacidade) {
-        super("", "", 0); // Exemplo de valores
+        super("", "", 0); 
         this.codTurma = codTurma;
         this.professorResponsavel = professor;
         this.semestre = semestre;
