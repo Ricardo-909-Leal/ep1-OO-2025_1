@@ -941,6 +941,9 @@ public class Menu {
         System.out.print("Código da turma: ");
         String codTurma = scanner.nextLine();
 
+        System.out.print("Matrícula do aluno: ");
+        String matricula = scanner.nextLine();
+
         ArrayList<String> linhas = new ArrayList<>();
         boolean turmaEncontrada = false;
         boolean alunoEncontrado = false;
@@ -954,8 +957,8 @@ public class Menu {
                     turmaEncontrada = true;
                 }
 
-                // Para alunos matriculados na turma
-                if (turmaEncontrada && linha.contains("Turma: " + codTurma) && linha.contains("[MATRICULADO]")) {
+                // Para o aluno matriculado na turma
+                if (turmaEncontrada && linha.contains("Turma: " + codTurma) && linha.contains("Matrícula: " + matricula) && linha.contains("[MATRICULADO]")) {
                     alunoEncontrado = true;
                     System.out.println("\n" + linha);
                     System.out.print("Nota P1: ");
@@ -973,20 +976,16 @@ public class Menu {
                     scanner.nextLine();
 
                     double[] notas = {p1, p2, p3, listas, seminario};
-                    // Descobrir a forma de avaliação da turma (simples ou ponderada)
                     String formaAvaliacao = "simples";
-                    // Procura na linha da turma
                     if (linha.toLowerCase().contains("ponderada")) formaAvaliacao = "ponderada";
                     RegistroAcademico registroAcademico = new RegistroAcademico(notas, presencas);
 
                     double media = registroAcademico.calcularMedia(formaAvaliacao);
-                    // Supondo que você sabe o total de aulas da turma (exemplo: peça ao usuário)
                     System.out.print("Total de aulas da turma: ");
                     int totalAulas = scanner.nextInt();
                     scanner.nextLine();
                     double frequencia = (totalAulas > 0) ? (presencas * 100.0 / totalAulas) : 0.0;
 
-                    // Checa aprovação/reprovação
                     String status;
                     if (media < 5.0) {
                         status = "REPROVADO POR NOTA";
@@ -1006,7 +1005,6 @@ public class Menu {
                     turmaEncontrada = false;
                 }
 
-                // Adiciona TODAS as linhas à lista, modificadas ou não
                 linhas.add(linha);
             }
         } catch (IOException e) {
@@ -1015,7 +1013,7 @@ public class Menu {
         }
 
         if (!alunoEncontrado) {
-            System.out.println("Nenhum aluno matriculado encontrado para essa turma.");
+            System.out.println("Aluno não encontrado ou não matriculado nesta turma.");
             return;
         }
 
